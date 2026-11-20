@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsx src/fase1.ts"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,10 @@
   },
   "homepage": "https://github.com/ProjAngeloAraujo/Bot--Monitor#readme",
   "dependencies": {
-    "cheerio": "^1.2.0"
+    "cheerio": "^1.2.0",
+    "dotenv": "^18.0.10",
+    "input": "^1.0.1",
+    "telegram": "^2.26.22"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
