@@ -2,10 +2,13 @@
   "name": "bot--monitor",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx src/fase1.ts"
+    "build": "tsc -p .",
+    "start": "node dist/main.js",
+    "dev": "tsx src/main.ts",
+    "dev:session": "tsx src/modules/telegram/telegram.session.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -22,10 +25,13 @@
   "dependencies": {
     "cheerio": "^1.2.0",
     "dotenv": "^18.0.10",
+    "express": "^5.3.0",
     "input": "^1.0.1",
+    "ioredis": "^6.0.0",
     "telegram": "^2.26.22"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^26.6.6",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"

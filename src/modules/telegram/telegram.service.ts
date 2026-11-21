@@ -55,7 +55,7 @@ export class TelegramService {
   async getNewMessages(chatId: string, ultimoId: number): Promise<MensagemCanal[]> {
     const entidade = this.entidades.get(chatId);
     if (!entidade) {
-      throw new Error(`Chat ${chatId} desconhecido. Chame getNewMessages() antes.`);
+      throw new Error(`Chat ${chatId} desconhecido. Chame getChats() antes.`);
     }
     const msgs = await this.client.getMessages(entidade, {
       minId: ultimoId,
