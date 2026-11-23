@@ -5,12 +5,14 @@ import type { RedisService } from './modules/redis/redis.service';
 import type { TelegramService } from './modules/telegram/telegram.service';
 import { TelegramController } from './telegram/telegram.controller';
 import { TelegramRoute } from './telegram/telegram.route';
+import { DbService } from './modules/db/db.service';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export interface Services {
   redis: RedisService;
   telegram: TelegramService;
+  db: DbService;
 }
 
 export interface RouteContext {

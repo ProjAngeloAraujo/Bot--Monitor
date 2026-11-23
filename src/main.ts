@@ -3,11 +3,13 @@ import express from 'express';
 import { RedisService } from './modules/redis/redis.service';
 import { TelegramService } from './modules/telegram/telegram.service';
 import { createRouter, errorHandler, notFoundHandler } from './route';
+import { DbService } from './modules/db/db.service';
 
 const PORT = Number(process.env.PORT ?? 3000);
 
 const redis = new RedisService();
 const telegram = new TelegramService();
+const db = new DbService();
 
 async function bootstrap() {
   await redis.connect();
@@ -16,9 +18,16 @@ async function bootstrap() {
   await telegram.connect();
   console.log('[telegram] conectado');
 
+  await db.connect();
+  console.log('[db] conectado');
+
+  process.on('exit', async () => {
+    await Promise.allSettled([telegram.disconnect(), redis.disconnect(), db.disconnect()]);
+  });
+
   const app = express();
   app.use(express.json());
-  app.use('/api/v1', createRouter({ redis, telegram }));
+  app.use('/api/v1', createRouter({ redis, telegram, db }));
   app.use(notFoundHandler);
   app.use(errorHandler);
 
@@ -27,7 +36,7 @@ async function bootstrap() {
   const shutdown = async (signal: string) => {
     console.log(`[app] ${signal} recebido, encerrando...`);
     server.close();
-    await Promise.allSettled([telegram.disconnect(), redis.disconnect()]);
+    await Promise.allSettled([telegram.disconnect(), redis.disconnect(), db.disconnect()]);
     process.exit(0);
   };
   process.on('SIGINT', () => void shutdown('SIGINT'));
