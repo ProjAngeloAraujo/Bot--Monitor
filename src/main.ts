@@ -4,6 +4,7 @@ import { RedisService } from './modules/redis/redis.service';
 import { TelegramService } from './modules/telegram/telegram.service';
 import { createRouter, errorHandler, notFoundHandler } from './route';
 import { DbService } from './modules/db/db.service';
+import { rodarMigrations } from './modules/db/migrate';
 
 const PORT = Number(process.env.PORT ?? 3000);
 
@@ -19,6 +20,7 @@ async function bootstrap() {
   console.log('[telegram] conectado');
 
   await db.connect();
+  await rodarMigrations(await db.queryPool());
   console.log('[db] conectado');
 
   process.on('exit', async () => {
