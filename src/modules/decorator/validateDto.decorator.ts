@@ -2,7 +2,7 @@ import type { ZodType } from 'zod';
 
 type ResLike = { status(codigo: number): { json(corpo: unknown): unknown } };
 
-export function ValidateSchema<S extends ZodType>(schema: S) {
+export function ValidateDto<S extends ZodType>(schema: S) {
   return function <This, Req extends { body: unknown }, Res extends ResLike>(
     alvo: (this: This, req: Req, res: Res) => Promise<void>,
     _context: ClassMethodDecoratorContext,

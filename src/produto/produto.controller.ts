@@ -1,4 +1,4 @@
-import { ValidateSchema } from "../modules/decorator/validateSchema.decorator";
+import { ValidateDto, } from "../modules/decorator/validateDto.decorator";
 import { CreateProdutoDto } from "./dto/produto.create.dto";
 import { ProdutoService } from "./produto.service";
 import type { Request, Response } from 'express';
@@ -19,7 +19,7 @@ export class ProdutoController {
         return await this.produtoService.findAll();
     }
 
-    @ValidateSchema(CreateProdutoDto)
+    @ValidateDto(CreateProdutoDto)
     async create(req: Request, res: Response) {
         const dto = req.body as CreateProdutoDto;
         const result = await this.produtoService.create(dto);
