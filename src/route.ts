@@ -6,6 +6,8 @@ import type { TelegramService } from './modules/telegram/telegram.service';
 import { TelegramController } from './telegram/telegram.controller';
 import { TelegramRoute } from './telegram/telegram.route';
 import { DbService } from './modules/db/db.service';
+import { ProdutoController } from './produto/produto.controller';
+import { ProdutoRoute } from './produto/produto.route';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -36,7 +38,10 @@ export interface RouteModule {
 
 /** Instancia os módulos de rotas, injetando os controllers/services */
 export function buildModules(services: Services): RouteModule[] {
-  return [new TelegramRoute(new TelegramController(services.telegram))];
+  return [
+    new TelegramRoute(new TelegramController(services.telegram)),
+    new ProdutoRoute(new ProdutoController(services.db)),
+  ];
 }
 
 /** Achata os módulos em Route[], aplicando o prefixo de cada um */
