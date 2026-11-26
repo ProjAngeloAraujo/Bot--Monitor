@@ -5,12 +5,14 @@ import { TelegramService } from './modules/telegram/telegram.service';
 import { createRouter, errorHandler, notFoundHandler } from './route';
 import { DbService } from './modules/db/db.service';
 import { rodarMigrations } from './modules/db/migrate';
+import { SyncTelegramJob } from './job/sync.telegram.job';
 
 const PORT = Number(process.env.PORT ?? 3000);
 
 const redis = new RedisService();
 const telegram = new TelegramService();
 const db = new DbService();
+const sync = new SyncTelegramJob(telegram, db);
 
 async function bootstrap() {
   await redis.connect();
@@ -22,6 +24,9 @@ async function bootstrap() {
   await db.connect();
   await rodarMigrations(await db.queryPool());
   console.log('[db] conectado');
+
+  sync.iniciar();
+  console.log('[sync-telegram] job iniciado');
 
   process.on('exit', async () => {
     await Promise.allSettled([telegram.disconnect(), redis.disconnect(), db.disconnect()]);
